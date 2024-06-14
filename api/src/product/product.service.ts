@@ -16,8 +16,10 @@ export class ProductService {
     private readonly productMediaService: ProductMediaService
   ) {}
 
-  async create(userId: string, createProductDto: CreateProductDto, files: Array<Express.Multer.File>) {
-    const product = await this.productRepository.save({...createProductDto, userId});
+  async create(userId: string, createProductDto: CreateProductDto, files: Express.Multer.File[]) {
+    const blockchain = createProductDto.blockchain.toString() === 'true' ? true : false; 
+    const vintage = createProductDto.vintage.toString() === 'true' ? true : false;
+    const product = await this.productRepository.save({...createProductDto, userId, blockchain, vintage});
     await this.priceService.create(product.id, createProductDto.price);
     this.productMediaService.addMedia(product.id, files);
     return product;

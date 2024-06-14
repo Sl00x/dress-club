@@ -20,9 +20,9 @@ export const NavigationItems: Navigation[] = [
     link: Routes.sell,
   },
   {
-    name: 'Notifications',
+    name: '',
     icon: 'ri-notification-line',
     identifier: 'NOTIFICATIONS',
-    link: Routes.home,
+    link: Routes.notifications,
   },
 ];

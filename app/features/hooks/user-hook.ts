@@ -1,3 +1,4 @@
+import { ToastType, useToast } from '@/components/Toaster/Toaster';
 import { Routes } from '@/interfaces/navigation.interface';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
@@ -13,6 +14,7 @@ export const useUserHook = () => {
   const user = useAppSelector(getUser);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { toast } = useToast();
 
   const getUserInfos = useCallback(async () => {
     return getMe()
@@ -44,7 +46,10 @@ export const useUserHook = () => {
         })
         .catch((error) => {
           if (error.status === 400) {
-            return;
+            toast(
+              ToastType.ERROR,
+              'Il semble que vous informations de connexion ne soit pas valide.'
+            );
           }
         });
     },

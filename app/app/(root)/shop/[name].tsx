@@ -3,6 +3,7 @@ import { useGetSubCategoryFromCategoryQuery } from '@/features/api/root-api';
 import { useAppSelector } from '@/features/hooks/root-hook';
 import { RootState } from '@/features/store/root-store';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import RemixIcon from 'react-native-remix-icon';
 
@@ -27,6 +28,7 @@ const SubCategory = () => {
       <View className="flex-1 px-4">
         <FlatList
           data={subCategories}
+          showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => (
             <TouchableOpacity
               onPress={() =>

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useRouter } from 'expo-router';
-import { ReactElement } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, { ReactElement } from 'react';
+import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import RemixIcon from 'react-native-remix-icon';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../Button/Button';
@@ -27,6 +27,7 @@ export const TextHeader = ({
   const router = useRouter();
   return (
     <View className="flex flex-col border-b border-black/10">
+      <StatusBar barStyle="light-content" />
       <View
         className={clsx('px-4 flex flex-row justify-between items-center py-2')}
         style={{

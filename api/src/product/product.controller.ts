@@ -6,19 +6,23 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 //import { FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthenticatedRequest } from 'interfaces/request.interface';
 import { GenderType } from 'src/gender/entities/gender.entity';
 import { GenderService } from 'src/gender/gender.service';
+import { Like } from 'typeorm';
+import { FilterPipe } from 'utils/fitlerpipe.utils';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductFilter } from './product.filter';
 import { ProductService } from './product.service';
-import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('product')
 @ApiBearerAuth('jwt')
@@ -34,15 +38,22 @@ export class ProductController {
   create(
     @Req() req: AuthenticatedRequest,
     @Body() createProductDto: CreateProductDto,
-    @UploadedFiles() files: Array<Express.Multer.File>,
+    @UploadedFiles() files: Express.Multer.File[],
   ) {
     return this.productService.create(req.user.id, createProductDto, files);
   }
 
-
   @Get()
-  findAll() {
+  findAll(@Query(new FilterPipe()) filters?: ProductFilter) {
+    const queries = {};
+    if (filters.category) queries['categoryId'] = filters.category;
+    if (filters.subCategory) queries['subCategoryId'] = filters.subCategory;
+    if (filters.gender) queries['gender'] = { type: filters.gender };
+    if (filters.brand) queries['brandId'] = filters.brand;
+    if (filters.model) queries['model'] = Like(filters.model);
+
     return this.productService.findAll({
+      where: queries,
       relations: {
         subCategory: true,
         brand: true,
@@ -52,7 +63,6 @@ export class ProductController {
       },
     });
   }
-
 
   @Get('/genders')
   allGender() {
@@ -82,14 +92,15 @@ export class ProductController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productService.findOne({
-      where: {id},
+      where: { id },
       relations: {
         subCategory: true,
         brand: true,
+        user: true,
         gender: true,
         prices: true,
         medias: true,
-      }
+      },
     });
   }
 

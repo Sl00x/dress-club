@@ -1,6 +1,14 @@
+import { Web3Modal } from '@web3modal/ethers-react-native';
 import clsx from 'clsx';
-import { ReactElement, useEffect, useRef, useState } from 'react';
-import { Animated, Modal, PanResponder, Text, View } from 'react-native';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import {
+  Animated,
+  Dimensions,
+  Modal,
+  PanResponder,
+  Text,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface Props {
@@ -18,7 +26,7 @@ export default function ModalScreen({
   full,
   title,
 }: Props) {
-  const { bottom } = useSafeAreaInsets();
+  const { bottom, top } = useSafeAreaInsets();
 
   const [visible, setVisible] = useState(open);
   const translateY = useRef(new Animated.Value(0)).current;
@@ -38,7 +46,7 @@ export default function ModalScreen({
     }
   }, [open, translateY]);
 
-  const checkHeightToClose = full ? 10 : 100;
+  const checkHeightToClose = full ? 100 : 100;
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -70,13 +78,15 @@ export default function ModalScreen({
       visible={open}
       onDismiss={onClose}
     >
+      <Web3Modal />
       <Animated.View
         style={{
           transform: [{ translateY }],
+          height: full ? Dimensions.get('screen').height - top : undefined,
         }}
         className={clsx(
-          'absolute  bottom-0 space-y-3 flex flex-col w-full bg-white',
-          full ? 'h-[90%]' : 'h-auto'
+          'absolute  bottom-0 space-y-3 flex flex-col w-full',
+          !full && 'h-auto'
         )}
       >
         <View
@@ -92,7 +102,7 @@ export default function ModalScreen({
           <View className="flex flex-row justify-center items-center border-b border-black/10 py-4">
             <Text className="text-lg uppercase font-semibold">{title}</Text>
           </View>
-          <View className="p-4">{children}</View>
+          <View>{children}</View>
         </View>
       </Animated.View>
     </Modal>

@@ -5,7 +5,7 @@ import { MinioClientService } from './minio-client.service';
 @Module({
   imports: [
     MinioModule.register({
-      endPoint: process.env.MINIO_INTERNAL_HOST,
+      endPoint: process.env.MINIO_HOST,
       port: Number(process.env.MINIO_INTERNAL_PORT),
       useSSL: false,
       accessKey: process.env.MINIO_ROOT_USER,

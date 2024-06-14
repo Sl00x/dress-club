@@ -10,6 +10,17 @@ services:
     volumes:
       - ./api:/api
 
+  app:
+    build:
+      context: .
+      dockerfile: ./web/dev.Dockerfile
+    restart: always
+    env_file: ./web/.env
+    volumes:
+      - ./web:/web
+    ports:
+      - '3000:3000'
+
   nginx:
     build: ./nginx
     restart: always

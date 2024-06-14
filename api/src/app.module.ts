@@ -1,15 +1,17 @@
 import { Module } from '@nestjs/common';
+import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { BrandModule } from './brand/brand.module';
 import { CategoryModule } from './category/category.module';
 import { GenderModule } from './gender/gender.module';
-import { SubCategoryModule } from './sub-category/sub-category.module';
-import { UserModule } from './user/user.module';
-import { ProductModule } from './product/product.module';
+import { MessagesModule } from './messages/messages.module';
+import { MinioClientModule } from './minio-client/minio-client.module';
 import { PriceModule } from './price/price.module';
 import { ProductMediaModule } from './product-media/product-media.module';
-import { MinioClientModule } from './minio-client/minio-client.module';
+import { ProductModule } from './product/product.module';
+import { SubCategoryModule } from './sub-category/sub-category.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -34,7 +36,11 @@ import { MinioClientModule } from './minio-client/minio-client.module';
     ProductModule,
     PriceModule,
     ProductMediaModule,
-    MinioClientModule
+    MinioClientModule,
+    MulterModule.register({
+      dest: './files',
+    }),
+    MessagesModule,
   ],
   controllers: [],
   providers: [],

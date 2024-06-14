@@ -1,38 +1,35 @@
 {
   "expo": {
-    "name": "app",
+    "name": "APP",
     "slug": "dressclub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "app",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.sl00x.dressclub"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sl00x.dressclub"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-font"
-    ],
+    "plugins": ["expo-router", "expo-font"],
     "experiments": {
       "typedRoutes": true
     },

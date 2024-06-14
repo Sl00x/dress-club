@@ -69,8 +69,9 @@ const SelectCategory = ({ onItemPress }: Props) => {
             {currentCategory === index && (
               <View className="flex flex-col space-y-2">
                 {item.subCategories &&
-                  item.subCategories.map((subCat) => (
+                  item.subCategories.map((subCat, index) => (
                     <TouchableOpacity
+                      key={index}
                       onPress={() => {
                         dispatch(
                           addKeyValue({ key: 'subCategory', value: subCat })

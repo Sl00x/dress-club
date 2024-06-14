@@ -1,5 +1,7 @@
 import { User } from '@/interfaces/user.interface';
-import { Text, TouchableOpacity } from 'react-native';
+import clsx from 'clsx';
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 interface Props {
   user?: User | null;
@@ -16,5 +18,19 @@ export const UserButton = ({ user, onPress }: Props) => {
         {`${user?.firstname?.[0].toLocaleUpperCase()}${user?.lastname?.[0].toLocaleUpperCase()}`}
       </Text>
     </TouchableOpacity>
+  );
+};
+
+export const Avatar = ({ user }: Props) => {
+  return (
+    <View
+      className={clsx(
+        'rounded-full w-12 h-12 flex flex-row items-center justify-center bg-blue-300'
+      )}
+    >
+      <Text className="font-bold text-xl">
+        {`${user?.firstname?.[0].toLocaleUpperCase()}${user?.lastname?.[0].toLocaleUpperCase()}`}
+      </Text>
+    </View>
   );
 };

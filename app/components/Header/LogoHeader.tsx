@@ -1,5 +1,6 @@
 import { useUserHook } from '@/features/hooks/user-hook';
 import { useRouter } from 'expo-router';
+import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import RemixIcon from 'react-native-remix-icon';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -17,10 +18,7 @@ export const LogoHeader = () => {
         paddingTop: top,
       }}
     >
-      <TouchableOpacity
-        className="p-2"
-        onPress={() => router.push('/subcat' as any)}
-      >
+      <TouchableOpacity onPress={() => router.push('/subcat' as any)}>
         <RemixIcon name="ri-shopping-bag-2-line" />
       </TouchableOpacity>
       <Image
@@ -29,7 +27,7 @@ export const LogoHeader = () => {
         style={{ height: 100 }}
         resizeMode="center"
       />
-      <UserButton user={user} onPress={logout} />
+      <UserButton user={user} onPress={() => router.push('/(root)/profile')} />
     </View>
   );
 };

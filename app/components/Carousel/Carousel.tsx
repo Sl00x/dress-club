@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Image } from 'expo-image';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
@@ -24,7 +24,7 @@ export const Carousel = ({ images }: Props) => {
             <View className="flex-1 items-center" key={index}>
               <Image
                 source={image}
-                className="w-full h-full object-center rounded-md bg-white aspect-square"
+                className="w-full h-full object-center bg-white aspect-square"
                 contentFit="cover"
               />
             </View>
@@ -32,14 +32,17 @@ export const Carousel = ({ images }: Props) => {
         </PagerView>
       )}
       <View className="absolute w-full justify-center bottom-2 flex flex-row space-x-2">
-        {images.map((image, index) => (
-          <View
-            className={clsx(
-              'bg-white/50 rounded-full h-2',
-              currentPage === index ? 'w-4 bg-white' : 'w-2 bg-white/50'
-            )}
-          />
-        ))}
+        <View className="flex flex-row space-x-2 bg-black/50 rounded-full p-2">
+          {images.map((image, index) => (
+            <View
+              key={index}
+              className={clsx(
+                'bg-white/50 rounded-full h-2',
+                currentPage === index ? 'w-4 bg-white' : 'w-2 bg-white/50'
+              )}
+            />
+          ))}
+        </View>
       </View>
     </View>
   );

@@ -13,7 +13,7 @@ export class ProductMediaService {
     private readonly productMediaRepository: Repository<ProductMedia>,
     private readonly minioClientService: MinioClientService,
   ) {}
-  async addMedia(productId: string, files: Array<Express.Multer.File>) {
+  async addMedia(productId: string, files: Express.Multer.File[]) {
     const promises = files.map(file =>
       this.minioClientService.upload(
         file,

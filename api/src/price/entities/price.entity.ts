@@ -22,7 +22,7 @@ export class Price {
   id: string;
 
   @ApiProperty()
-  @Column()
+  @Column({ type: 'decimal', nullable: true})
   price: number;
 
   @ManyToOne(() => Product, (product) => product.prices)

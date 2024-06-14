@@ -46,7 +46,7 @@ export const SelectGender = ({ onItemPress }: Props) => {
           onPress={() => {
             selectItem(TypeCategory.MEN);
           }}
-          label="MENWEAR"
+          label="HOMME"
           colors={['#283048', '#859398']}
           icon={'ri-men-line'}
         />
@@ -54,7 +54,7 @@ export const SelectGender = ({ onItemPress }: Props) => {
           onPress={() => {
             selectItem(TypeCategory.WOMEN);
           }}
-          label="WOMENWEAR"
+          label="FEMME"
           colors={['#F2709C', '#FF9472']}
           icon={'ri-women-line'}
         />
@@ -64,7 +64,7 @@ export const SelectGender = ({ onItemPress }: Props) => {
           onPress={() => {
             selectItem(TypeCategory.KIDS);
           }}
-          label="BOYSWEAR"
+          label="GARÇON"
           colors={['#1CD8D2', '#93EDC7']}
           icon={'ri-bear-smile-line'}
         />
@@ -72,7 +72,7 @@ export const SelectGender = ({ onItemPress }: Props) => {
           onPress={() => {
             selectItem(TypeCategory.KIDS);
           }}
-          label="GIRLSWEAR"
+          label="FILLE"
           colors={['#4776E6', '#8E54E9']}
           icon={'ri-cactus-line'}
         />

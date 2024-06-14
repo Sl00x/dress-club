@@ -1,22 +1,27 @@
+// @ts-ignore
+import '@walletconnect/react-native-compat';
+
+// @ts-ignore
+
 import { BottomNavigation } from '@/components/Navigation/BottomNavigation';
+import { ChatProvider } from '@/features/hooks/message-hook';
+import { useUserHook } from '@/features/hooks/user-hook';
 import { Slot } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const RootLayout = () => {
   const { bottom } = useSafeAreaInsets();
+  const { user } = useUserHook();
   return (
-    <View className="flex-1">
-      <StatusBar style="inverted" />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex flex-col flex-1 h-screen w-screen"
-      >
-        <View className="flex-1">
+    <View className="flex-1 flex flex-col ">
+      <View className="flex-1 flex flex-col">
+        <ChatProvider userId={user?.id!}>
           <Slot />
-        </View>
-      </KeyboardAvoidingView>
+        </ChatProvider>
+      </View>
+
       <View style={{ paddingBottom: bottom }}>
         <BottomNavigation />
       </View>

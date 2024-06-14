@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Brand } from 'src/brand/entities/brand.entity';
+import { Category } from 'src/category/entities/category.entity';
 import { Gender } from 'src/gender/entities/gender.entity';
 import { Price } from 'src/price/entities/price.entity';
 import { ProductMedia } from 'src/product-media/entities/product-media.entity';
@@ -18,11 +19,10 @@ import {
 } from 'typeorm';
 
 export enum ProductState {
-  BAD = 'BAD',
-  MEDIUM = 'MEDIUM',
+  FAIR = 'FAIR',
   GOOD = 'GOOD',
-  VERY_GOOD = 'VERY_GOOD',
-  NEW = 'NEW',
+  NEVER_WORN = 'NEVER_WORN',
+  NEVER_WORN_TAG = 'NEVER_WORN_TAG',
 }
 
 @Entity()
@@ -34,6 +34,25 @@ export class Product {
   @ApiProperty()
   @Column()
   model: string;
+
+  @ApiProperty()
+  @Column({ type: 'text', nullable: true })
+  description: string;
+
+  @ApiProperty()
+  @Column({ default: false })
+  vintage: boolean;
+
+  @ApiProperty()
+  @Column({ default: false })
+  blockchain: boolean;
+
+  @Column({ default: false })
+  hasAuthenticityPapers: boolean;
+
+  @ApiProperty()
+  @Column({ default: false })
+  selled: boolean;
 
   @ApiProperty()
   @Column()
@@ -56,8 +75,15 @@ export class Product {
   @JoinColumn({ name: 'subCategoryId' })
   subCategory: SubCategory;
 
-  @Column()
+  @Column({ nullable: true })
   subCategoryId: string;
+
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: 'categoryId' })
+  category: Category;
+
+  @Column({ nullable: true })
+  categoryId: string;
 
   @ManyToOne(() => Gender)
   @JoinColumn({ name: 'genderId' })
@@ -70,7 +96,7 @@ export class Product {
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   userId: string;
 
   @ApiProperty()

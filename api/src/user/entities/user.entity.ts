@@ -43,6 +43,10 @@ export class User {
   lastname: string;
 
   @ApiProperty()
+  @Column({ nullable: true, default: '#000 ' })
+  color: string;
+
+  @ApiProperty()
   @Column()
   phone: string;
 

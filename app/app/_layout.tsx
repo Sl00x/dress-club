@@ -1,50 +1,43 @@
+// @ts-ignore
+import '@walletconnect/react-native-compat';
+
+// @ts-ignore
+import { WagmiConfig } from 'wagmi';
+
+import { ToastProvider } from '@/components/Toaster/Toaster';
 import { store } from '@/features/store/root-store';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useFonts } from 'expo-font';
+
+import { chains, projectId, wagmiConfig } from '@/constants/web3.constant';
+import { createWeb3Modal, Web3Modal } from '@web3modal/wagmi-react-native';
 import { Slot } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { NativeWindStyleSheet } from 'nativewind';
-import { useEffect } from 'react';
+import React from 'react';
+import 'react-native-compat';
 import { Provider } from 'react-redux';
 
-export { ErrorBoundary } from 'expo-router';
-
-SplashScreen.preventAutoHideAsync();
-
-NativeWindStyleSheet.setOutput({
-  default: 'native',
-});
-
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
-  });
-
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
   return <RootLayoutNav />;
 }
 
+createWeb3Modal({
+  projectId,
+  chains,
+  wagmiConfig,
+  enableAnalytics: true, // Optional - defaults to your Cloud configuration
+});
+
 function RootLayoutNav() {
   return (
-    <Provider store={store}>
-      <StatusBar style="inverted" />
-
-      <Slot />
-    </Provider>
+    <>
+      <WagmiConfig config={wagmiConfig}>
+        <Provider store={store}>
+          <ToastProvider>
+            <StatusBar style="light" />
+            <Slot />
+          </ToastProvider>
+        </Provider>
+        <Web3Modal />
+      </WagmiConfig>
+    </>
   );
 }

@@ -1,7 +1,6 @@
-import { NavigationIdentifier } from '@/features/reducers/product-reducer';
-
 export const Routes = {
   home: '/(root)/home',
+  notifications: '/(root)/notifications/chat',
   shop: '/(root)/shop',
   sell: '/(root)/sell',
 };
@@ -9,6 +8,7 @@ export const Routes = {
 export interface Navigation {
   name: string;
   icon: string;
-  identifier: NavigationIdentifier;
+  identifier: string;
   link: string;
+  main?: boolean;
 }

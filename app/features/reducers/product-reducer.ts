@@ -10,6 +10,8 @@ interface CreateProduct {
   subCategory?: SubCategory;
   category?: Category;
   brand?: Brand;
+  vintage?: boolean;
+  blockchain?: boolean;
   model?: string;
   price?: number;
   state?: { label: string; value: string };
@@ -20,7 +22,12 @@ interface ProductState {
   product?: CreateProduct;
 }
 
-const initialState: ProductState = {};
+const initialState: ProductState = {
+  product: {
+    blockchain: false,
+    vintage: false,
+  },
+};
 
 const productReducer = createSlice({
   name: 'product',
@@ -34,8 +41,12 @@ const productReducer = createSlice({
       (stateCopy as any)[action.payload.key] = action.payload.value;
       state.product = stateCopy;
     },
+
+    clearAll: (state) => {
+      state.product = undefined;
+    },
   },
 });
 
-export const { addKeyValue } = productReducer.actions;
+export const { addKeyValue, clearAll } = productReducer.actions;
 export default productReducer;

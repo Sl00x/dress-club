@@ -13,23 +13,30 @@ export const Stepper = ({ steps, currentStep }: Props) => {
       <Text className="font-bold uppercase text-lg">{steps[currentStep]}</Text>
       <View className="flex flex-row items-center">
         {steps.map((_, index) => (
-          <View key={index} className="flex flex-row items-center">
+          <View
+            key={index}
+            className="flex flex-row items-center justify-center"
+          >
             <View
               className={clsx(
-                'rounded-full',
+                'rounded-full flex flex-row justify-center items-center',
                 index <= currentStep
-                  ? 'bg-black w-6 h-6'
+                  ? 'bg-black w-5 h-5'
                   : 'bg-black/10 w-5 h-5'
               )}
             >
               {index < currentStep && (
-                <RemixIcon name="ri-checkbox-circle-line" color="white" />
+                <RemixIcon
+                  name="ri-checkbox-circle-line"
+                  color="white"
+                  size={18}
+                />
               )}
             </View>
             {index < steps.length - 1 && (
               <View
                 className={clsx(
-                  'w-6 h-[2px]',
+                  'w-4 h-[2px]',
                   index < currentStep ? 'bg-black' : 'bg-black/10'
                 )}
               />

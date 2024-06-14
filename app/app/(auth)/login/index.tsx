@@ -2,7 +2,8 @@ import { Button } from '@/components/Button/Button';
 import { Input } from '@/components/Input/TextInput';
 import { Logo } from '@/components/Logo/Logo';
 import { useUserHook } from '@/features/hooks/user-hook';
-import { useState } from 'react';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -15,6 +16,7 @@ const LoginPage = () => {
   const { login, loginLoading } = useUserHook();
   const [email, setEmail] = useState('johndoe@dressclub.fr');
   const [password, setPassword] = useState('Password123!');
+  const router = useRouter();
 
   return (
     <KeyboardAvoidingView
@@ -60,7 +62,7 @@ const LoginPage = () => {
           <Text className="text-sm">
             Vous ne disposez pas encore de compte ?
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push('/(auth)/register')}>
             <Text className="font-semibold text-sm">
               Créez un compte maintenant !
             </Text>
