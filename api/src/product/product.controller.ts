@@ -95,6 +95,7 @@ export class ProductController {
       where: { id },
       relations: {
         subCategory: true,
+        likes: true,
         brand: true,
         user: true,
         gender: true,
@@ -107,6 +108,16 @@ export class ProductController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(id, updateProductDto);
+  }
+
+  @Patch(':id/like')
+  like(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
+    return this.productService.productLike(id, req.user.id);
+  }
+
+  @Get(':id/likes')
+  likeCount(@Param('id') id: string) {
+    return this.productService.productLikesCount(id);
   }
 
   @Delete(':id')

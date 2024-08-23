@@ -7,7 +7,13 @@ import ModalScreen from '@/components/Modal/Modal';
 import { EthereumLabel } from '@/components/Product/EthereumLabel';
 import { LikeProduct } from '@/components/Product/LikeProduct';
 import { ProductConditionTag } from '@/components/Product/ProductConditionTag';
-import { useGetProductByIdQuery } from '@/features/api/root-api';
+import { ToastType, useToast } from '@/components/Toaster/Toaster';
+import {
+  useGetProductByIdQuery,
+  useLikeProductCountQuery,
+  useLikeProductMutation,
+} from '@/features/api/root-api';
+import { useUserHook } from '@/features/hooks/user-hook';
 import { formatPriceToEuro } from '@/utils/formater.utils';
 import clsx from 'clsx';
 import { useLocalSearchParams } from 'expo-router';
@@ -15,13 +21,19 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
 const DetailProduct = () => {
+  const { user } = useUserHook();
   const { id, name } = useLocalSearchParams();
   const { data: product, isLoading } = useGetProductByIdQuery(id as string, {
+    skip: !id,
+  });
+  const [likeProduct] = useLikeProductMutation();
+  const { data: productCountLikes } = useLikeProductCountQuery(id as string, {
     skip: !id,
   });
   const [stringUris, setStringUris] = useState<string[]>([]);
   const [openOfferModal, setOpenOfferModal] = useState(false);
   const [currentOffer, setCurrentOffer] = useState('');
+  const notify = useToast();
 
   useEffect(() => {
     setStringUris([]);
@@ -78,7 +90,7 @@ const DetailProduct = () => {
             <EthereumLabel />
           </View>
         )}
-        <View className="flex flex-row justify-between">
+        <View className="flex flex-row justify-between pt-4">
           <View className="flex flex-col space-y-1">
             <Text className="font-semibold text-xl">{product?.brand.name}</Text>
             <Text className="text-sm text-black/70">{product?.model}</Text>
@@ -94,7 +106,20 @@ const DetailProduct = () => {
                   )}
             </Text>
           </View>
-          <LikeProduct />
+          <LikeProduct
+            count={productCountLikes}
+            liked={
+              product?.likes?.filter((like) => like.id === user?.id).length! > 0
+            }
+            onPress={() =>
+              likeProduct(product?.id!)
+                .unwrap()
+                .then((data) => notify.toast(ToastType.SUCCESS, 'Produit aimé'))
+                .catch((error) =>
+                  notify.toast(ToastType.ERROR, error.data.message)
+                )
+            }
+          />
         </View>
         <View className="flex flex-row  space-x-2 items-center">
           <View>

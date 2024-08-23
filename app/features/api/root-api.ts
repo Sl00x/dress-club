@@ -74,6 +74,7 @@ export const rootApi = createApi({
       query: (id) => ({
         url: `/product/${id}`,
       }),
+      providesTags: (result, error, id) => [{ type: 'PRODUCT', id }],
     }),
 
     createProduct: builder.mutation<Product, FormData>({
@@ -84,6 +85,22 @@ export const rootApi = createApi({
         body,
       }),
       invalidatesTags: ['PRODUCT'],
+    }),
+
+    likeProduct: builder.mutation<Product, string>({
+      query: (id) => ({
+        url: `/product/${id}/like`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: 'PRODUCT', id: arg }],
+    }),
+
+    likeProductCount: builder.query<number | undefined, string>({
+      query: (id) => ({
+        url: `/product/${id}/likes`,
+        method: 'GET',
+      }),
+      providesTags: ['PRODUCT'],
     }),
 
     getBrandsFromCategory: builder.query<Brand[], string>({
@@ -117,4 +134,6 @@ export const {
   useCreateProductMutation,
   useGetProductByIdQuery,
   useRegisterMutation,
+  useLikeProductMutation,
+  useLikeProductCountQuery,
 } = rootApi;

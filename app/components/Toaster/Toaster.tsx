@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { Animated, Text } from 'react-native';
+import { Animated, Platform, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type ToastContextType = {
@@ -76,7 +76,12 @@ export const ToastProvider = ({ children }: Props) => {
         return (
           <Animated.View
             className="absolute bottom-0 left-0 right-0 bg-black p-4 z-[1000]"
-            style={[{ opacity, paddingBottom: bottom }]}
+            style={[
+              {
+                opacity,
+                paddingBottom: bottom + Platform.OS === 'android' ? 100 : 0,
+              },
+            ]}
           >
             <Text className="text-white text-lg">{message}</Text>
           </Animated.View>
@@ -106,7 +111,7 @@ export const ToastProvider = ({ children }: Props) => {
             className="absolute bottom-0 left-0 right-0 bg-red-400 p-4"
             style={[{ opacity, paddingBottom: bottom }]}
           >
-            <Text className="text-black text-lg">{message}</Text>
+            <Text className="text-white text-lg">{message}</Text>
           </Animated.View>
         );
       case ToastType.INFO:

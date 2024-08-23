@@ -30,6 +30,7 @@ export interface Product {
   vintage?: boolean;
   blockchain?: boolean;
   user?: User;
+  likes?: User[];
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date | null;

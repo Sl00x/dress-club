@@ -12,6 +12,8 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -53,6 +55,11 @@ export class Product {
   @ApiProperty()
   @Column({ default: false })
   selled: boolean;
+
+  @ApiProperty()
+  @ManyToMany(() => User)
+  @JoinTable({ name: 'product_like' })
+  likes: User[];
 
   @ApiProperty()
   @Column()
